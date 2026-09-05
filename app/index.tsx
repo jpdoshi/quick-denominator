@@ -1,21 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Platform,
-  BackHandler,
-  ToastAndroid,
-} from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { HomeScreen } from '../HomeScreen';
-import { SettingsScreen } from '../SettingsScreen';
+import { StatusBar } from 'expo-status-bar';
+import { useEffect, useRef, useState } from 'react';
+import {
+  BackHandler,
+  Platform,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { AboutScreen } from '../AboutScreen';
+import { HomeScreen } from '../HomeScreen';
+import { ReceiptScreen } from '../ReceiptScreen';
+import { SettingsScreen } from '../SettingsScreen';
 
-type TabKey = 'counter' | 'settings' | 'about';
+type TabKey = 'counter' | 'receipt' | 'settings' | 'about';
 
 const hardShadow = (offset = 3, bg = '#000') => ({
   borderWidth: 2.5,
@@ -69,7 +70,8 @@ export default function Index() {
   }, [activeTab]);
 
   const tabs: { key: TabKey; label: string; icon: keyof typeof Ionicons.glyphMap; color: string }[] = [
-    { key: 'counter', label: 'Cashier', icon: 'calculator-outline', color: '#FACC15' },
+    { key: 'counter', label: 'Payment', icon: 'calculator-outline', color: '#FACC15' },
+    { key: 'receipt', label: 'Receipt', icon: 'cash-outline', color: '#86EFAC' },
     { key: 'settings', label: 'Settings', icon: 'settings-outline', color: '#67E8F9' },
     { key: 'about', label: 'About', icon: 'heart-outline', color: '#FDA4AF' },
   ];
@@ -81,6 +83,7 @@ export default function Index() {
       {/* Screen Body */}
       <View style={styles.screenContainer}>
         {activeTab === 'counter' && <HomeScreen isActive={activeTab === 'counter'} />}
+        {activeTab === 'receipt' && <ReceiptScreen />}
         {activeTab === 'settings' && <SettingsScreen />}
         {activeTab === 'about' && <AboutScreen />}
       </View>
@@ -158,24 +161,24 @@ const styles = StyleSheet.create({
     borderTopWidth: 2.5,
     borderTopColor: '#000',
     backgroundColor: '#FFF',
-    paddingTop: 10,
+    paddingTop: 8,
     paddingBottom: 8,
-    paddingHorizontal: 16,
+    paddingHorizontal: 8,
   },
   tabBar: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    gap: 8,
+    gap: 4,
   },
   tabButton: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 6,
-    paddingVertical: 10,
-    paddingHorizontal: 8,
+    gap: 2,
+    paddingVertical: 6,
+    paddingHorizontal: 4,
     borderRadius: 8,
   },
   tabButtonActive: {
@@ -185,7 +188,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   tabLabel: {
-    fontSize: 13,
+    fontSize: 11,
     fontWeight: '900',
   },
   tabLabelActive: {
