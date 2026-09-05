@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
   Platform,
+  BackHandler,
+  ToastAndroid,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -34,6 +36,37 @@ const hardShadow = (offset = 3, bg = '#000') => ({
 
 export default function Index() {
   const [activeTab, setActiveTab] = useState<TabKey>('counter');
+  const [showExitToast, setShowExitToast] = useState(false);
+  const lastBackPressTimeRef = useRef<number>(0);
+
+  useEffect(() => {
+    const onBackPress = () => {
+      // If on other tab, navigate back to the home (counter) tab
+      if (activeTab !== 'counter') {
+        setActiveTab('counter');
+        return true;
+      }
+
+      // If already on home tab, handle double tap to exit
+      const now = Date.now();
+      if (now - lastBackPressTimeRef.current < 2000) {
+        BackHandler.exitApp();
+        return true;
+      }
+
+      lastBackPressTimeRef.current = now;
+      if (Platform.OS === 'android') {
+        ToastAndroid.show('Press back again to exit', ToastAndroid.SHORT);
+      } else {
+        setShowExitToast(true);
+        setTimeout(() => setShowExitToast(false), 2000);
+      }
+      return true;
+    };
+
+    const backSubscription = BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    return () => backSubscription.remove();
+  }, [activeTab]);
 
   const tabs: { key: TabKey; label: string; icon: keyof typeof Ionicons.glyphMap; color: string }[] = [
     { key: 'counter', label: 'Cashier', icon: 'calculator-outline', color: '#FACC15' },
@@ -47,7 +80,7 @@ export default function Index() {
 
       {/* Screen Body */}
       <View style={styles.screenContainer}>
-        {activeTab === 'counter' && <HomeScreen />}
+        {activeTab === 'counter' && <HomeScreen isActive={activeTab === 'counter'} />}
         {activeTab === 'settings' && <SettingsScreen />}
         {activeTab === 'about' && <AboutScreen />}
       </View>
@@ -87,11 +120,33 @@ export default function Index() {
           })}
         </View>
       </SafeAreaView>
+
+      {/* Exit Toast Alert */}
+      {showExitToast && (
+        <View style={[styles.exitToast, hardShadow(2)]}>
+          <Text style={styles.exitToastText}>Press back again to exit</Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  exitToast: {
+    position: 'absolute',
+    bottom: 90,
+    alignSelf: 'center',
+    backgroundColor: '#000',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 8,
+    zIndex: 999,
+  },
+  exitToastText: {
+    color: '#FFF',
+    fontSize: 13,
+    fontWeight: '800',
+  },
   rootContainer: {
     flex: 1,
     backgroundColor: '#FFFDF0',

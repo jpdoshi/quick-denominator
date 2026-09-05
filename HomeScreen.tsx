@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Platform,
   ScrollView,
@@ -43,7 +43,12 @@ const NOTE_THEMES: Record<number, { bg: string; text: string; label: string }> =
   1: { bg: '#FEF3C7', text: '#92400E', label: 'Gold / ₹1 Coin' },
 };
 
-export const HomeScreen: React.FC = () => {
+interface HomeScreenProps {
+  isActive?: boolean;
+}
+
+export const HomeScreen: React.FC<HomeScreenProps> = ({ isActive = true }) => {
+  const inputRef = useRef<TextInput>(null);
   const {
     rawInput,
     numericAmount,
@@ -54,6 +59,15 @@ export const HomeScreen: React.FC = () => {
     currency,
     showQuickAdd,
   } = useDenomination();
+
+  useEffect(() => {
+    if (isActive) {
+      const timer = setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isActive]);
 
   const activeCurrencyConfig = CURRENCY_CONFIGS[currency] || CURRENCY_CONFIGS.INR;
 
@@ -70,7 +84,7 @@ export const HomeScreen: React.FC = () => {
             <View style={styles.headerBadge}>
               <Text style={styles.headerBadgeText}>TELLER DESK</Text>
             </View>
-            <Text style={styles.headerTitle}>Cash Counter</Text>
+            <Text style={styles.headerTitle}>Cash Payment Counter</Text>
             <Text style={styles.headerSubtitle}>
               {currency === 'INR' ? 'Indian Bank Mode (en-IN)' : `${currency} Cashier Mode`}
             </Text>
@@ -96,9 +110,10 @@ export const HomeScreen: React.FC = () => {
             </View>
 
             <TextInput
+              ref={inputRef}
               value={rawInput}
               onChangeText={setAmountString}
-              placeholder="0"
+              placeholder="Enter Amount"
               placeholderTextColor="#9CA3AF"
               keyboardType="number-pad"
               style={styles.textInput}

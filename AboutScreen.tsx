@@ -27,7 +27,7 @@ const hardShadow = (offset = 3, bg = '#000') => ({
   }),
 });
 
-const UPI_ID = 'jpdoshi@okaxis';
+const UPI_ID = 'jpdoshi2811@okaxis';
 
 export const AboutScreen: React.FC = () => {
   const [copied, setCopied] = useState(false);
@@ -87,44 +87,6 @@ export const AboutScreen: React.FC = () => {
             <View style={styles.chaiTitleGroup}>
               <Text style={styles.chaiTitle}>Buy Me a Chai</Text>
               <Text style={styles.chaiSubtitle}>Support open-source development</Text>
-            </View>
-          </View>
-
-          {/* Neubrutalist Stylized UPI QR Frame */}
-          <View style={[styles.qrOuterFrame, hardShadow(3)]}>
-            <View style={styles.qrInnerBox}>
-              {/* Corner target locators */}
-              <View style={[styles.qrCorner, styles.qrCornerTL]} />
-              <View style={[styles.qrCorner, styles.qrCornerTR]} />
-              <View style={[styles.qrCorner, styles.qrCornerBL]} />
-
-              {/* Decorative QR Pattern Blocks */}
-              <View style={styles.qrGridPattern}>
-                <View style={styles.qrRow}>
-                  <View style={styles.qrDotFilled} />
-                  <View style={styles.qrDotEmpty} />
-                  <View style={styles.qrDotFilled} />
-                  <View style={styles.qrDotFilled} />
-                  <View style={styles.qrDotEmpty} />
-                </View>
-                <View style={styles.qrRow}>
-                  <View style={styles.qrDotEmpty} />
-                  <View style={styles.qrDotFilled} />
-                  <View style={styles.qrCenterLogo}>
-                    <Text style={styles.qrLogoText}>UPI</Text>
-                  </View>
-                  <View style={styles.qrDotFilled} />
-                </View>
-                <View style={styles.qrRow}>
-                  <View style={styles.qrDotFilled} />
-                  <View style={styles.qrDotFilled} />
-                  <View style={styles.qrDotEmpty} />
-                  <View style={styles.qrDotFilled} />
-                  <View style={styles.qrDotEmpty} />
-                </View>
-              </View>
-
-              <Text style={styles.qrScanLabel}>SCAN WITH ANY UPI APP</Text>
             </View>
           </View>
 

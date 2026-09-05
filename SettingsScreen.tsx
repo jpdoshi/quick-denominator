@@ -254,14 +254,6 @@ export const SettingsScreen: React.FC = () => {
             <Text style={styles.resetDefaultsText}>RESET TO BANK DEFAULTS</Text>
           </TouchableOpacity>
         </View>
-
-        {/* Persistence Notice Card */}
-        <View style={[styles.noticeCard, hardShadow(2)]}>
-          <Ionicons name="cloud-done-outline" size={18} color="#065F46" />
-          <Text style={styles.noticeText}>
-            Settings persist automatically to AsyncStorage on every change.
-          </Text>
-        </View>
       </ScrollView>
     </View>
   );
