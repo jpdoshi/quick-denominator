@@ -1,7 +1,21 @@
 import "../global.css";
 import { Stack } from "expo-router";
+import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context";
+import { SettingsProvider } from "../useDenomination";
 
 export default function RootLayout() {
-  return <Stack />;
+  return (
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+      <SettingsProvider>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: "#FFFDF0" },
+          }}
+        />
+      </SettingsProvider>
+    </SafeAreaProvider>
+  );
 }
+
 
