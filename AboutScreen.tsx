@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-  Platform,
-} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
+import React, { useState } from 'react';
+import {
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 const hardShadow = (offset = 3, bg = '#000') => ({
   borderWidth: 2.5,
@@ -27,7 +27,7 @@ const hardShadow = (offset = 3, bg = '#000') => ({
   }),
 });
 
-const UPI_ID = 'tellerdad@okaxis';
+const UPI_ID = 'jpdoshi@okaxis';
 
 export const AboutScreen: React.FC = () => {
   const [copied, setCopied] = useState(false);
@@ -53,7 +53,7 @@ export const AboutScreen: React.FC = () => {
           <View style={styles.headerBadge}>
             <Text style={styles.headerBadgeText}>ABOUT & DEDICATION</Text>
           </View>
-          <Text style={styles.headerTitle}>Built for Dad</Text>
+          <Text style={styles.headerTitle}>Built for Quick Calculation</Text>
           <Text style={styles.headerSubtitle}>Cash Denomination Helper</Text>
         </View>
 
@@ -157,27 +157,6 @@ export const AboutScreen: React.FC = () => {
                 </Text>
               </TouchableOpacity>
             </View>
-          </View>
-        </View>
-
-        {/* Technical Specs Card */}
-        <View style={[styles.techCard, hardShadow(3)]}>
-          <Text style={styles.techTitle}>SYSTEM SPECIFICATIONS</Text>
-          <View style={styles.techRow}>
-            <Text style={styles.techKey}>Platform:</Text>
-            <Text style={styles.techValue}>Expo SDK 57 (React Native)</Text>
-          </View>
-          <View style={styles.techRow}>
-            <Text style={styles.techKey}>Styling:</Text>
-            <Text style={styles.techValue}>Strict Neubrutalism + NativeWind</Text>
-          </View>
-          <View style={styles.techRow}>
-            <Text style={styles.techKey}>Algorithm:</Text>
-            <Text style={styles.techValue}>Greedy Optimal Coin-Change (O(N))</Text>
-          </View>
-          <View style={styles.techRow}>
-            <Text style={styles.techKey}>Storage:</Text>
-            <Text style={styles.techValue}>AsyncStorage (100% Offline)</Text>
           </View>
         </View>
       </ScrollView>

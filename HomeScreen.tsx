@@ -1,16 +1,16 @@
+import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import {
-  View,
+  Platform,
+  ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-  Platform,
+  View,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { CURRENCY_CONFIGS, formatCurrencyAmount } from './types';
 import { useDenomination } from './useDenomination';
-import { formatCurrencyAmount, formatOnlyNumber, CURRENCY_CONFIGS } from './types';
 
 // Hard flat Neubrutalist shadow definition for universal cross-platform rendering
 const hardShadow = (offset = 3, bg = '#000') => ({
@@ -74,16 +74,6 @@ export const HomeScreen: React.FC = () => {
               {currency === 'INR' ? 'Indian Bank Mode (en-IN)' : `${currency} Cashier Mode`}
             </Text>
           </View>
-
-          {/* Rapid Reset Button */}
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={clearAmount}
-            style={[styles.resetButton, hardShadow(2.5, '#000')]}
-          >
-            <Ionicons name="refresh-outline" size={18} color="#000" />
-            <Text style={styles.resetButtonText}>Reset</Text>
-          </TouchableOpacity>
         </View>
 
         {/* Amount Input Card */}
@@ -191,9 +181,8 @@ export const HomeScreen: React.FC = () => {
           <Text style={styles.breakdownTitle}>DENOMINATION BREAKDOWN</Text>
           <Text style={styles.breakdownSubtitle}>
             {result.breakdown.filter((item) => item.count > 0).length > 0
-              ? `${result.breakdown.filter((item) => item.count > 0).length} ${
-                  result.breakdown.filter((item) => item.count > 0).length === 1 ? 'note' : 'notes'
-                } to dispense`
+              ? `${result.breakdown.filter((item) => item.count > 0).length} ${result.breakdown.filter((item) => item.count > 0).length === 1 ? 'note' : 'notes'
+              } to dispense`
               : 'Only required denominations appear here'}
           </Text>
         </View>
