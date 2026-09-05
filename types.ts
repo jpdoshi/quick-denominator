@@ -29,6 +29,7 @@ export interface CalculationResult {
 export interface SettingsState {
   currency: CurrencyCode;
   denominations: DenominationItem[];
+  showQuickAdd: boolean;
 }
 
 export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {

@@ -44,6 +44,9 @@ interface SettingsContextType {
   denominations: DenominationItem[];
   toggleDenomination: (value: number) => void;
   resetDenominations: () => void;
+  showQuickAdd: boolean;
+  setShowQuickAdd: (show: boolean) => void;
+  toggleQuickAdd: () => void;
   activeNotes: number[];
   isLoaded: boolean;
 }
@@ -53,6 +56,7 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currency, setCurrencyState] = useState<CurrencyCode>('INR');
   const [denominations, setDenominations] = useState<DenominationItem[]>(DEFAULT_DENOMINATIONS);
+  const [showQuickAdd, setShowQuickAddState] = useState<boolean>(true);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
@@ -62,6 +66,9 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         if (stored) {
           const parsed = JSON.parse(stored);
           if (parsed.currency) setCurrencyState(parsed.currency);
+          if (typeof parsed.showQuickAdd === 'boolean') {
+            setShowQuickAddState(parsed.showQuickAdd);
+          }
           if (Array.isArray(parsed.denominations)) {
             const storedValues = new Set(parsed.denominations.map((d: DenominationItem) => d.value));
             const merged = [
@@ -79,23 +86,26 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     })();
   }, []);
 
-  const saveSettings = useCallback(async (newCurr: CurrencyCode, newDenoms: DenominationItem[]) => {
-    try {
-      await AsyncStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({ currency: newCurr, denominations: newDenoms })
-      );
-    } catch (e) {
-      console.error('Failed to persist cashier settings', e);
-    }
-  }, []);
+  const saveSettings = useCallback(
+    async (newCurr: CurrencyCode, newDenoms: DenominationItem[], newQuickAdd: boolean) => {
+      try {
+        await AsyncStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({ currency: newCurr, denominations: newDenoms, showQuickAdd: newQuickAdd })
+        );
+      } catch (e) {
+        console.error('Failed to persist cashier settings', e);
+      }
+    },
+    []
+  );
 
   const setCurrency = useCallback(
     (newCurr: CurrencyCode) => {
       setCurrencyState(newCurr);
-      saveSettings(newCurr, denominations);
+      saveSettings(newCurr, denominations, showQuickAdd);
     },
-    [denominations, saveSettings]
+    [denominations, showQuickAdd, saveSettings]
   );
 
   const toggleDenomination = useCallback(
@@ -104,17 +114,34 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         const updated = prev.map((item) =>
           item.value === value ? { ...item, active: !item.active } : item
         );
-        saveSettings(currency, updated);
+        saveSettings(currency, updated, showQuickAdd);
         return updated;
       });
     },
-    [currency, saveSettings]
+    [currency, showQuickAdd, saveSettings]
   );
+
+  const setShowQuickAdd = useCallback(
+    (show: boolean) => {
+      setShowQuickAddState(show);
+      saveSettings(currency, denominations, show);
+    },
+    [currency, denominations, saveSettings]
+  );
+
+  const toggleQuickAdd = useCallback(() => {
+    setShowQuickAddState((prev) => {
+      const next = !prev;
+      saveSettings(currency, denominations, next);
+      return next;
+    });
+  }, [currency, denominations, saveSettings]);
 
   const resetDenominations = useCallback(() => {
     setDenominations(DEFAULT_DENOMINATIONS);
     setCurrencyState('INR');
-    saveSettings('INR', DEFAULT_DENOMINATIONS);
+    setShowQuickAddState(true);
+    saveSettings('INR', DEFAULT_DENOMINATIONS, true);
   }, [saveSettings]);
 
   const activeNotes = useMemo(
@@ -129,10 +156,24 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       denominations,
       toggleDenomination,
       resetDenominations,
+      showQuickAdd,
+      setShowQuickAdd,
+      toggleQuickAdd,
       activeNotes,
       isLoaded,
     }),
-    [currency, setCurrency, denominations, toggleDenomination, resetDenominations, activeNotes, isLoaded]
+    [
+      currency,
+      setCurrency,
+      denominations,
+      toggleDenomination,
+      resetDenominations,
+      showQuickAdd,
+      setShowQuickAdd,
+      toggleQuickAdd,
+      activeNotes,
+      isLoaded,
+    ]
   );
 
   return React.createElement(SettingsContext.Provider, { value }, children);

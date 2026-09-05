@@ -1,15 +1,15 @@
+import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import {
-  View,
-  Text,
-  TouchableOpacity,
+  Platform,
   ScrollView,
   StyleSheet,
-  Platform,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { useSettings } from './useDenomination';
 import { CURRENCY_CONFIGS, CurrencyCode } from './types';
+import { useSettings } from './useDenomination';
 
 const hardShadow = (offset = 3, bg = '#000') => ({
   borderWidth: 2.5,
@@ -37,6 +37,8 @@ export const SettingsScreen: React.FC = () => {
     denominations,
     toggleDenomination,
     resetDenominations,
+    showQuickAdd,
+    toggleQuickAdd,
   } = useSettings();
 
   return (
@@ -111,6 +113,59 @@ export const SettingsScreen: React.FC = () => {
                 </TouchableOpacity>
               );
             })}
+          </View>
+        </View>
+
+        {/* Quick Add Presets Feature */}
+        <View style={[styles.sectionCard, hardShadow(4)]}>
+          <View style={styles.sectionHeaderRow}>
+            <Ionicons name="flash-outline" size={20} color="#000" />
+            <Text style={styles.sectionTitle}>QUICK-ADD PRESETS</Text>
+          </View>
+          <Text style={styles.sectionDescription}>
+            Display rapid quick-add buttons (+1K, +5K, +10K, +50K) below the amount input on Cashier screen.
+          </Text>
+
+          <View
+            style={[
+              styles.denomRow,
+              showQuickAdd ? styles.denomRowActive : styles.denomRowInactive,
+              hardShadow(2),
+            ]}
+          >
+            <View style={styles.denomLeft}>
+              <View style={styles.denomMeta}>
+                <Text style={styles.denomLabel}>Quick Add Buttons</Text>
+                <Text style={styles.denomSubLabelText}>
+                  {showQuickAdd ? 'Visible on Cashier Counter' : 'Hidden from Cashier Counter'}
+                </Text>
+              </View>
+            </View>
+
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={toggleQuickAdd}
+              style={[
+                styles.toggleButton,
+                showQuickAdd ? styles.toggleButtonOn : styles.toggleButtonOff,
+                hardShadow(1.5),
+              ]}
+            >
+              <View
+                style={[
+                  styles.toggleThumb,
+                  showQuickAdd ? styles.toggleThumbOn : styles.toggleThumbOff,
+                ]}
+              />
+              <Text
+                style={[
+                  styles.toggleText,
+                  showQuickAdd ? styles.toggleTextOn : styles.toggleTextOff,
+                ]}
+              >
+                {showQuickAdd ? 'ACTIVE' : 'OFF'}
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -377,6 +432,12 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '700',
     color: '#DC2626',
+    marginTop: 1,
+  },
+  denomSubLabelText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#4B5563',
     marginTop: 1,
   },
   toggleButton: {

@@ -52,6 +52,7 @@ export const HomeScreen: React.FC = () => {
     clearAmount,
     result,
     currency,
+    showQuickAdd,
   } = useDenomination();
 
   const activeCurrencyConfig = CURRENCY_CONFIGS[currency] || CURRENCY_CONFIGS.INR;
@@ -89,7 +90,7 @@ export const HomeScreen: React.FC = () => {
             )}
           </View>
 
-          <View style={styles.inputRow}>
+          <View style={[styles.inputRow, !showQuickAdd && { marginBottom: 0 }]}>
             <View style={[styles.currencySymbolBadge, hardShadow(2)]}>
               <Text style={styles.currencySymbolText}>{activeCurrencyConfig.symbol}</Text>
             </View>
@@ -116,30 +117,32 @@ export const HomeScreen: React.FC = () => {
           </View>
 
           {/* Quick Add Presets */}
-          <View style={styles.presetsContainer}>
-            <Text style={styles.presetsLabel}>QUICK ADD:</Text>
-            <View style={styles.presetButtonsRow}>
-              {[
-                { label: '+1K', value: 1000, color: '#86EFAC' },
-                { label: '+5K', value: 500, color: '#67E8F9' },
-                { label: '+10K', value: 10000, color: '#FDE047' },
-                { label: '+50K', value: 50000, color: '#FDA4AF' },
-              ].map((preset) => (
-                <TouchableOpacity
-                  key={preset.value}
-                  activeOpacity={0.8}
-                  onPress={() => addPreset(preset.value)}
-                  style={[
-                    styles.presetButton,
-                    { backgroundColor: preset.color },
-                    hardShadow(2),
-                  ]}
-                >
-                  <Text style={styles.presetButtonText}>{preset.label}</Text>
-                </TouchableOpacity>
-              ))}
+          {showQuickAdd && (
+            <View style={styles.presetsContainer}>
+              <Text style={styles.presetsLabel}>QUICK ADD:</Text>
+              <View style={styles.presetButtonsRow}>
+                {[
+                  { label: '+1K', value: 1000, color: '#86EFAC' },
+                  { label: '+5K', value: 500, color: '#67E8F9' },
+                  { label: '+10K', value: 10000, color: '#FDE047' },
+                  { label: '+50K', value: 50000, color: '#FDA4AF' },
+                ].map((preset) => (
+                  <TouchableOpacity
+                    key={preset.value}
+                    activeOpacity={0.8}
+                    onPress={() => addPreset(preset.value)}
+                    style={[
+                      styles.presetButton,
+                      { backgroundColor: preset.color },
+                      hardShadow(2),
+                    ]}
+                  >
+                    <Text style={styles.presetButtonText}>{preset.label}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
             </View>
-          </View>
+          )}
         </View>
 
         {/* Summary Card */}
