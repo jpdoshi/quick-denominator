@@ -197,12 +197,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ isActive = true }) => {
         {/* Denomination Breakdown Title */}
         <View style={styles.breakdownHeader}>
           <Text style={styles.breakdownTitle}>DENOMINATION BREAKDOWN</Text>
-          <Text style={styles.breakdownSubtitle}>
-            {result.breakdown.filter((item) => item.count > 0).length > 0
-              ? `${result.breakdown.filter((item) => item.count > 0).length} ${result.breakdown.filter((item) => item.count > 0).length === 1 ? 'note' : 'notes'
-              } to dispense`
-              : 'Only required denominations appear here'}
-          </Text>
         </View>
 
         {/* Breakdown List - Only show denominations that need to be paid */}
@@ -294,8 +288,8 @@ const styles = StyleSheet.create({
   headerCard: {
     backgroundColor: '#FACC15',
     borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
+    padding: 10,
+    marginBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -346,8 +340,8 @@ const styles = StyleSheet.create({
   inputCard: {
     backgroundColor: '#FFF',
     borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
+    padding: 10,
+    marginBottom: 12,
   },
   inputHeader: {
     flexDirection: 'row',
@@ -449,8 +443,8 @@ const styles = StyleSheet.create({
   summaryCard: {
     backgroundColor: '#86EFAC',
     borderRadius: 8,
-    padding: 16,
-    marginBottom: 20,
+    padding: 10,
+    marginBottom: 12,
   },
   summaryTopRow: {
     flexDirection: 'row',

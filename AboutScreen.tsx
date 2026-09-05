@@ -140,8 +140,8 @@ const styles = StyleSheet.create({
   headerCard: {
     backgroundColor: '#FDA4AF',
     borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
+    padding: 10,
+    marginBottom: 12,
   },
   headerBadge: {
     alignSelf: 'flex-start',
@@ -172,8 +172,8 @@ const styles = StyleSheet.create({
   dedicationCard: {
     backgroundColor: '#FFF',
     borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
+    padding: 10,
+    marginBottom: 12,
   },
   dedicationHeader: {
     flexDirection: 'row',
@@ -215,8 +215,8 @@ const styles = StyleSheet.create({
   chaiCard: {
     backgroundColor: '#FEF08A',
     borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
+    padding: 10,
+    marginBottom: 12,
   },
   chaiHeaderRow: {
     flexDirection: 'row',
@@ -251,9 +251,9 @@ const styles = StyleSheet.create({
   qrOuterFrame: {
     backgroundColor: '#FFF',
     borderRadius: 8,
-    padding: 16,
+    padding: 10,
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 12,
   },
   qrInnerBox: {
     width: 170,
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
   techCard: {
     backgroundColor: '#FFF',
     borderRadius: 8,
-    padding: 16,
+    padding: 10,
   },
   techTitle: {
     fontSize: 12,

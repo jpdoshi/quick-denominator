@@ -273,8 +273,8 @@ const styles = StyleSheet.create({
   headerCard: {
     backgroundColor: '#67E8F9',
     borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
+    padding: 10,
+    marginBottom: 12,
   },
   headerBadge: {
     alignSelf: 'flex-start',
@@ -305,8 +305,8 @@ const styles = StyleSheet.create({
   sectionCard: {
     backgroundColor: '#FFF',
     borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
+    padding: 10,
+    marginBottom: 12,
   },
   sectionHeaderRow: {
     flexDirection: 'row',
